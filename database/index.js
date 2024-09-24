@@ -1,18 +1,33 @@
-const { Sequelize } = require('sequelize')
+const Queue = require('bull')
+const Worker = require('bull')
 
-// Use your created username and password
-const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, {
-  host: process.env.DB_HOST,
-  dialect: 'postgres',
+// Initialize the battle queue
+const battleQueue = new Queue('battleQueue', {
+  redis: {
+    host: process.env.REDIS_HOST, // e.g. 'localhost'
+    port: process.env.REDIS_PORT, // e.g. 6379
+    // No need for maxRetriesPerRequest and enableReadyCheck options
+  }
+  // maxRetriesPerRequest: null, // Disable automatic retries
+  // enableReadyCheck: false, // Disable ready check
 })
 
-(async () => {
-  try {
-    await sequelize.authenticate()
-    console.log('Connection has been established successfully.')
-  } catch (error) {
-    console.error('Unable to connect to the database:', error)
-  }
-})()
+// Log any Redis errors
+battleQueue.on('error', (error) => {
+    console.error('Redis error:', error)
+})
 
-module.exports = sequelize
+// Optionally set up a worker to process jobs
+const worker = new Worker('battleQueue', async (job) => {
+    // Your job processing logic here
+    console.log(`Processing battle: ${job.data}`)
+    await new Promise((resolve) => setTimeout(resolve, 1000)) // Simulate processing
+    console.log(`Finished processing battle: ${job.data}`)
+})
+
+// Log any worker errors
+worker.on('error', (error) => {
+    console.error('Worker error:', error)
+})
+
+module.exports = battleQueue
