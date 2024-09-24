@@ -13,8 +13,6 @@ describe('Battle', () => {
 
     test('should correctly process a battle until one player is defeated', async () => {
         const result = await battle.process()
-        console.log('test !!!!', result)
-
         // Assert that one of the player's HP is less than or equal to 0
         expect(result.loserHP).toBeLessThanOrEqual(0)  // Ensure loser’s HP is 0 or less
     })

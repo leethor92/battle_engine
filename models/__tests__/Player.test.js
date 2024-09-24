@@ -25,7 +25,7 @@ describe('Player', () => {
         await player1.save()
 
         const player2 = new Player('Player5', 2000, 40, 90, 20)
-        await expect(player2.save()).rejects.toThrow('Player with name "Player5" already exists.')
+        await expect(player2.save()).rejects.toThrow('Player with name \"Player5\" already exists.')
     })
 
     test('should throw an error if player name is invalid', async () => {

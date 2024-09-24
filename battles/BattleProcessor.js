@@ -1,9 +1,11 @@
 const Battle = require('./Battle')
 
 class BattleProcessor {
+
     constructor({ attackerId, defenderId }) {
-        this.attacker = { id: attackerId, name: 'neverloses123', hp: 100, attack: 30, luck: 0.1, gold: 1000, maxHp: 100 }
-        this.defender = { id: defenderId, name: 'gonnawin234', hp: 100, attack: 40, luck: 0.2, gold: 1000, maxHp: 100 }
+      // stubbed data, this would be populated from the endpoint
+      this.attacker = { id: attackerId, name: 'neverloses123', hp: 100, attack: 30, luck: 0.1, gold: 1000, maxHp: 100 }
+      this.defender = { id: defenderId, name: 'gonnawin234', hp: 100, attack: 40, luck: 0.2, gold: 1000, maxHp: 100 }
     }
 
     async processBattle() {

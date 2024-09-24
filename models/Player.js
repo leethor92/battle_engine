@@ -2,7 +2,7 @@ const Redis = require('ioredis')
 const Joi = require('joi')
 const { v4: uuidv4 } = require('uuid')
 
-const redis = new Redis() // Adjust your Redis connection options if needed
+const redis = new Redis()
 
 class Player {
   static redis // Static property to hold the Redis instance
@@ -50,9 +50,9 @@ class Player {
   async save() {
     this.validate()
     // Check if a player with the same name already exists
-    const existingPlayer = await redis.sismember('playerNames', this.name)
+    const existingPlayer = await Player.redis.sismember('playerNames', this.name)
     if (existingPlayer) {
-      throw new Error(`Player with name ${this.name} already exists.`)
+      throw new Error(`Player with name "${this.name}" already exists.`)
     } else {
       console.log("no player with the name", this.name)
     }
@@ -65,16 +65,16 @@ class Player {
       luckValue: this.luckValue,
     }
 
-    await redis.set(this.identifier, JSON.stringify(playerData))
+    await Player.redis.set(this.identifier, JSON.stringify(playerData))
 
-    await redis.sadd('playerNames', this.name)
+    await Player.redis.sadd('playerNames', this.name)
     console.log(`Player ${this.name} created with identifier ${this.identifier}.`)
   }
 
   // Fetch player data from Redis
   static async getPlayer(name) {
-    const playerData = await redis.get(name);
-    return playerData ? JSON.parse(playerData) : null;
+    const playerData = await Player.redis.get(name)
+    return playerData ? JSON.parse(playerData) : null
   }
 }
 

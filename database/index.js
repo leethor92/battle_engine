@@ -2,10 +2,10 @@ const Queue = require('bull')
 
 // Initialize the battle queue
 const battleQueue = new Queue('battleQueue', {
-    redis: {
-      host: process.env.REDIS_HOST,
-      port: process.env.REDIS_PORT,
-    },
+  redis: {
+    host: process.env.REDIS_HOST || "localhost",
+    port: process.env.REDIS_PORT || 6379,
+  },
 })
 
 // Log any Redis errors

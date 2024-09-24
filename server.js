@@ -1,6 +1,6 @@
 const express = require('express')
 const bodyParser = require('body-parser')
-const routes = require('./routes/index.js') // Adjust the path as needed
+const routes = require('./routes/index.js')
 
 const app = express()
 const PORT = process.env.PORT || 3000
@@ -9,7 +9,10 @@ const PORT = process.env.PORT || 3000
 app.use(bodyParser.json())
 
 // Use battle routes
-app.use('/api', routes) // Make sure this line is correct
+app.use('/api', routes)
+
+// to protect endpoints I would have implemented something using JWT middleware
+// That way only requests that provide a valid token can make succesful requests.
 
 // Start the server
 app.listen(PORT, () => {
