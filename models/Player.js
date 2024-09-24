@@ -5,6 +5,13 @@ const { v4: uuidv4 } = require('uuid')
 const redis = new Redis() // Adjust your Redis connection options if needed
 
 class Player {
+  static redis // Static property to hold the Redis instance
+
+  // Static method to set the Redis instance for testing
+  static setRedis(redisInstance) {
+    Player.redis = redisInstance
+  }
+
   constructor(name, gold, attackValue, hitPoints, luckValue) {
     this.identifier = uuidv4()
     this.name = name
