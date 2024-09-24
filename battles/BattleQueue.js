@@ -13,6 +13,7 @@ class BattleQueue {
     }
 
     add_battle(battleData) {
+        console.log(`Adding battle to queue: ${JSON.stringify(battleData)}`)
         return this.queue.add(battleData)
     }
 
